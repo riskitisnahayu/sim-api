@@ -43,7 +43,28 @@ class EbookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $ebooks = new EBook();
+       $ebooks->title=$request->title;
+       $ebooks->subjectscategories_id=$request->subjectscategories_id;
+       $ebooks->class=$request->class;
+       $ebooks->semester=$request->semester;
+       $ebooks->author=$request->author;
+       $ebooks->publisher=$request->publisher;
+       $ebooks->year=$request->year;
+       $ebooks->url=$request->url;
+
+           // $image   = $request->file('image');
+           // $ext     = $image->getClientOriginalExtension();
+           // $newName = rand(100000,1001238912).".".$ext;
+           // $image->move('images',$newName);
+           // $ebooks->image = $newName;
+       $ebooks->save();
+
+       return response()->json([
+           'status' => 'success',
+           'result' => $ebooks
+       ]);
+
     }
 
     /**
@@ -81,7 +102,22 @@ class EbookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request);
+        $ebooks = EBook::where('id',$id)->first();
+        $ebooks->title=$request->title;
+        $ebooks->subjectscategories_id=$request->subjectscategories_id;
+        $ebooks->class=$request->class;
+        $ebooks->semester=$request->semester;
+        $ebooks->author=$request->author;
+        $ebooks->publisher=$request->publisher;
+        $ebooks->year=$request->year;
+        $ebooks->url=$request->url;
+        $ebooks->save();
+
+        return response()->json([  //biar keluarannya berupa json
+            'status' => 'success',
+            'result' => $ebooks
+        ]);
     }
 
     /**
@@ -92,6 +128,12 @@ class EbookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ebooks = EBook::where('id',$id)->first();
+        $ebooks->delete();
+
+        return response()->json([  //biar keluarannya berupa json
+            'status' => 'success',
+            'result' => $ebooks
+        ]);
     }
 }
