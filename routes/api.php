@@ -22,10 +22,10 @@ Route::middleware('api')->post('/user','UserController@store');
 
 // untuk api game
 Route::middleware('auth:api')->get('/games','GamesController@getGames');
-Route::middleware('auth:api')->get('/games/{id}','GamesController@show');
-Route::middleware('auth:api')->post('/games','GamesController@store');
-Route::middleware('auth:api')->post('/games/{id}','GamesController@update');
-Route::middleware('auth:api')->post('/games/{id}','GamesController@delete');
+Route::middleware('auth:api')->post('/games/store','GamesController@store');
+Route::middleware('auth:api')->get('/games/detail/{id}','GamesController@show');
+Route::middleware('auth:api')->put('/games/update/{id}','GamesController@update');
+Route::middleware('auth:api')->delete('/games/delete/{id}','GamesController@destroy');
 
 // untuk api ebook
 Route::middleware('auth:api')->get('/ebook','EbookController@getEbook');
