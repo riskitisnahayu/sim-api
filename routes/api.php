@@ -20,6 +20,21 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // untuk api create user
 Route::middleware('api')->post('/user','UserController@store');
 
+// untuk kategori game
+Route::middleware('auth:api')->get('/gamecategory','GameCategoryController@getGameCategory');
+Route::middleware('auth:api')->post('/gamecategory/store','GameCategoryController@store');
+Route::middleware('auth:api')->get('/gamecategory/detail/{id}','GameCategoryController@show');
+Route::middleware('auth:api')->put('/gamecategory/update/{id}','GameCategoryController@update');
+Route::middleware('auth:api')->delete('/gamecategory/delete/{id}','GameCategoryController@destroy');
+
+// untuk kategori mapel
+Route::middleware('auth:api')->get('/subjectscategory','SubjectsCategoryController@getSubjectsCategory');
+Route::middleware('auth:api')->post('/subjectscategory/store','SubjectsCategoryController@store');
+Route::middleware('auth:api')->get('/subjectscategory/detail/{id}','SubjectsCategoryController@show');
+Route::middleware('auth:api')->put('/subjectscategory/update/{id}','SubjectsCategoryController@update');
+Route::middleware('auth:api')->delete('/subjectscategory/delete/{id}','SubjectsCategoryController@destroy');
+
+
 // untuk api game
 Route::middleware('auth:api')->get('/games','GamesController@getGames');
 Route::middleware('auth:api')->post('/games/store','GamesController@store');
