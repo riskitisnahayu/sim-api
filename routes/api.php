@@ -17,8 +17,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// untuk registrasi
+Route::middleware('api')->post('/user/orangtua','UserController@regisortu');
+Route::middleware('api')->post('/user/siswa','UserController@regisSiswa');
+
+
 // untuk api create user
-Route::middleware('api')->post('/user','UserController@store');
+// Route::middleware('api')->post('/user','UserController@store');
 
 // untuk kategori game
 Route::middleware('auth:api')->get('/gamecategory','GameCategoryController@getGameCategory');
