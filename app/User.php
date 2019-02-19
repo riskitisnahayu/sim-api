@@ -29,13 +29,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function orangtuas()
+    public function orangtua()
     {
-        return $this->hasMany('App\Orangtua', 'user_id', 'id');
+        return $this->hasOne('App\Orangtua', 'user_id', 'id');
     }
 
-    public function students()
+    public function student()
     {
-        return $this->hasMany('App\Student', 'user_id', 'id');
+        return $this->hasOne('App\Student', 'user_id', 'id');
     }
 }

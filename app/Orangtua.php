@@ -14,4 +14,9 @@ class Orangtua extends Model
     {
         return $this->belongsTo('App\User', 'user_id', 'id');
     }
+
+    public function student()
+    {
+        return $this->hasMany('App\Student', 'orangtua_id', 'id');
+    }
 }

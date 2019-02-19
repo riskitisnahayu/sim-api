@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 
+
 class UserController extends Controller
 {
     /**
@@ -12,6 +13,40 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function login(Request $request)
+     {
+         $request->validate([
+             'username' => 'required|string|username',
+             'password' => 'required|string'
+         ]);
+
+         if(Auth::attempt([
+             'email' => request('email'),
+             'password' => request('password')
+        ])){
+            $user = Auth::user();
+            $username = $request->get('username');
+            $password = $request->get('password');
+            $success['token'] =  $user->createToken('MyApp')-> accessToken;
+            $success['username'] = $username;
+            $success['password'] = $password;
+
+            $pengguna = User::where('username', $success['username'])->first();
+            $pengguna->token = $success['token'];
+            dd($pengguna);
+            return response()->json([
+                'status' => 'success',
+                'user'   => $pengguna
+            ]);
+        }
+        else{
+            $success['status'] = 'failed';
+            $success['error']  = 'Unauthorised';
+            $success['message'] = 'Your username or password incorrect!';
+            return response()->json([$success]);
+        }
+     }
 
     public function regisortu(Request $request){
         $this->validate($request, [
