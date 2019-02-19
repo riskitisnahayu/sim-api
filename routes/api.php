@@ -14,19 +14,27 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return Auth::user();
+    return $request->user();
 });
+Route::middleware('api')->post('/user/login','UserController@login');
 
 // untuk registrasi
 Route::middleware('api')->post('/user/orangtua','UserController@regisortu');
 Route::middleware('api')->post('/user/siswa','UserController@regisSiswa');
+<<<<<<< HEAD
 Route::middleware('api')->post('/user/login','UserController@login');
 Route::middleware('api')->post('/user/logout','UserController@logout');
 
+=======
+>>>>>>> 184fa9bba2a078d9cfa96fe48fa293b50be6165a
 
+
+Route::middleware('auth:api')->get('/province','ProvinceController@getGames');
 
 // untuk api create user
 // Route::middleware('api')->post('/user','UserController@store');
+// BERITA
+Route::middleware('auth:api')->get('/berita','OrangtuaController@getNews');
 
 Route::middleware('auth:api')->get('/province','ProvinceController@showProvince');
 
