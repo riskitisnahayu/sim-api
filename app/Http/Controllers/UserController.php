@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Auth;
 
 
 class UserController extends Controller
@@ -16,10 +17,10 @@ class UserController extends Controller
 
      public function login(Request $request)
      {
-         $request->validate([
-             'username' => 'required|string|username',
-             'password' => 'required|string'
-         ]);
+         // $request->validate([
+         //     'username' => 'required|string|username',
+         //     'password' => 'required|string'
+         // ]);
 
          if(Auth::attempt([
              'email' => request('email'),
@@ -34,7 +35,7 @@ class UserController extends Controller
 
             $pengguna = User::where('username', $success['username'])->first();
             $pengguna->token = $success['token'];
-            dd($pengguna);
+            // dd($pengguna);
             return response()->json([
                 'status' => 'success',
                 'user'   => $pengguna
