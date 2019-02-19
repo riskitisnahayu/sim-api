@@ -21,10 +21,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('api')->post('/user/orangtua','UserController@regisortu');
 Route::middleware('api')->post('/user/siswa','UserController@regisSiswa');
 Route::middleware('api')->post('/user/login','UserController@login');
+Route::middleware('api')->post('/user/logout','UserController@logout');
+
 
 
 // untuk api create user
 // Route::middleware('api')->post('/user','UserController@store');
+
+Route::middleware('auth:api')->get('/province','ProvinceController@showProvince');
+
 
 // untuk kategori game
 Route::middleware('auth:api')->get('/gamecategory','GameCategoryController@getGameCategory');
