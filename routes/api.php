@@ -23,7 +23,9 @@ Route::middleware('api')->post('/user/orangtua','UserController@regisortu');
 Route::middleware('api')->post('/user/siswa','UserController@regisSiswa');
 
 
-Route::middleware('auth:api')->get('/province','ProvinceController@getGames');
+Route::middleware('auth:api')->get('/province','ProvinceController@getProvince');
+Route::middleware('auth:api')->get('/regency','RegencyController@getRegency');
+Route::middleware('auth:api')->get('/district','DistrictController@getDistrict');
 
 // untuk api create user
 // Route::middleware('api')->post('/user','UserController@store');

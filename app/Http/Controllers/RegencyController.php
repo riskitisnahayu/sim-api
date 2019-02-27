@@ -3,12 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Regency;
 
 class RegencyController extends Controller
 {
-    public function getRegency() // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
+    public function getRegency(Request $request) // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
     {
-        $regencies = Regency::all(); // untuk mengambil semua data games
+        if ($request->id) {
+            $regencies = Regency::where('id', $request->id)->get();
+        } elseif ($request->province_id) {
+            $regencies = Regency::where('province_id', $request->province_id)->get();
+        } else {
+            $regencies = Regency::all(); // untuk mengambil semua data games
+        }
+
         return response()->json([
             'status' => 'success',
             'result' => $regencies

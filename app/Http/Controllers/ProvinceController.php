@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Province;
 
 class ProvinceController extends Controller
 {
-    public function getProvince() // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
+    public function getProvince(Request $request) // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
     {
-        $provinces = Province::all(); // untuk mengambil semua data games
+        if ($request->id) {
+            $provinces = Province::where('id', $request->id)->get(); // untuk mengambil semua data games
+        } else {
+            $provinces = Province::all(); // untuk mengambil semua data games
+        }
+
         return response()->json([
             'status' => 'success',
             'result' => $provinces
