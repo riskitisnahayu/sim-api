@@ -21,6 +21,12 @@ Route::middleware('api')->post('/user/login','UserController@login');
 // untuk registrasi
 Route::middleware('api')->post('/user/orangtua','UserController@regisortu');
 Route::middleware('api')->post('/user/siswa','UserController@regisSiswa');
+<<<<<<< HEAD
+Route::middleware('api')->post('/user/login','UserController@login');
+Route::middleware('api')->post('/user/logout','UserController@logout');
+
+=======
+>>>>>>> 184fa9bba2a078d9cfa96fe48fa293b50be6165a
 
 
 Route::middleware('auth:api')->get('/province','ProvinceController@getProvince');
@@ -31,6 +37,9 @@ Route::middleware('auth:api')->get('/district','DistrictController@getDistrict')
 // Route::middleware('api')->post('/user','UserController@store');
 // BERITA
 Route::middleware('auth:api')->get('/berita','OrangtuaController@getNews');
+
+Route::middleware('auth:api')->get('/province','ProvinceController@showProvince');
+
 
 // untuk kategori game
 Route::middleware('auth:api')->get('/gamecategory','GameCategoryController@getGameCategory');
