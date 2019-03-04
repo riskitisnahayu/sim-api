@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Province;
 
 class ProvinceController extends Controller
 {
@@ -16,6 +16,7 @@ class ProvinceController extends Controller
         }
 
         return response()->json([
+            'error' => false,
             'status' => 'success',
             'result' => $provinces
         ]);

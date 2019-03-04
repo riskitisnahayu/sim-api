@@ -17,6 +17,7 @@ class SubjectsCategoryController extends Controller
      {
          $subjectscategories = SubjectsCategory::all(); // untuk mengambil semua data SubjectsCategory
          return response()->json([
+             'error' => false,
              'status' => 'success',
              'result' => $subjectscategories
          ]);
@@ -51,6 +52,7 @@ class SubjectsCategoryController extends Controller
          $subjectscategories->save();
 
          return response()->json([  //biar keluarannya berupa json
+             'error' => false,
              'status' => 'success',
              'result' => $subjectscategories
          ]);
@@ -67,6 +69,7 @@ class SubjectsCategoryController extends Controller
         $subjectscategories = SubjectsCategory::find($id);
 
         return response()->json([  //biar keluarannya berupa json
+            'error' => false,
             'status' => 'success',
             'result' => $subjectscategories
         ]);
@@ -98,6 +101,7 @@ class SubjectsCategoryController extends Controller
         $subjectscategories->save();
 
         return response()->json([  //biar keluarannya berupa json
+            'error' => false,
             'status' => 'success',
             'result' => $subjectscategories
         ]);
@@ -115,8 +119,9 @@ class SubjectsCategoryController extends Controller
         $subjectscategories->delete();
 
         return response()->json([  //biar keluarannya berupa json
+            'error' => false,
             'status' => 'success',
             'result' => $subjectscategories
-        ]); 
+        ]);
     }
 }

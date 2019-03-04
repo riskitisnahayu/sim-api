@@ -11,6 +11,7 @@ class EbookController extends Controller
     {
         $ebooks = EBook::all(); // untuk mengambil semua data games
         return response()->json([
+            'error' => false,
             'status' => 'success',
             'result' => $ebooks
         ]);
@@ -61,6 +62,7 @@ class EbookController extends Controller
        $ebooks->save();
 
        return response()->json([
+           'error' => false,
            'status' => 'success',
            'result' => $ebooks
        ]);
@@ -77,6 +79,7 @@ class EbookController extends Controller
     {
         $ebooks = EBook::find($id);
         return response()->json([  //biar keluarannya berupa json
+            'error' => false,
             'status' => 'success',
             'result' => $ebooks
         ]);
@@ -115,6 +118,7 @@ class EbookController extends Controller
         $ebooks->save();
 
         return response()->json([  //biar keluarannya berupa json
+            'error' => false,
             'status' => 'success',
             'result' => $ebooks
         ]);
@@ -132,6 +136,7 @@ class EbookController extends Controller
         $ebooks->delete();
 
         return response()->json([  //biar keluarannya berupa json
+            'error' => false,
             'status' => 'success',
             'result' => $ebooks
         ]);

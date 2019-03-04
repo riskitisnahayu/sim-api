@@ -17,8 +17,9 @@ class DistrictController extends Controller
             $districts = District::all(); // untuk mengambil semua data games
         }
 
-        
+
         return response()->json([
+            'error' => false,
             'status' => 'success',
             'result' => $districts
         ]);

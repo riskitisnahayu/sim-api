@@ -3,24 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\GameCategory;
+use App\TaskMaster;
+use App\SubjectsCategory;
 
-class GameCategoryController extends Controller
+class TaskMasterController extends Controller
 {
+
+    public function getTaskMaster() // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
+    {
+        $task_masters = TaskMaster::all(); // untuk mengambil semua data games
+        return response()->json([
+            'error' => false,
+            'status' => 'success',
+            'result' => $task_masters
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-     public function getGameCategory() // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
-     {
-         $gamecategories = GameCategory::all(); // untuk mengambil semua data SubjectsCategory
-         return response()->json([
-             'error' => false,
-             'status' => 'success',
-             'result' => $gamecategories
-         ]);
-     }
     public function index()
     {
         //
@@ -44,15 +46,18 @@ class GameCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $gamecategories = new GameCategory();
-        $gamecategories->name=$request->name;
-        $gamecategories->description=$request->description;
-        $gamecategories->save();
+        $task_masters = new TaskMaster();
+        $task_masters->title=$request->title;
+        $task_masters->class=$request->class;
+        $task_masters->semester=$request->semester;
+        $task_masters->subjectscategories_id=$request->subjectscategories_id;
+        $task_masters->total_task=$request->total_task;
+        $task_masters->save();
 
         return response()->json([
             'error' => false,
             'status' => 'success',
-            'result' => $gamecategories
+            'result' => $task_masters
         ]);
     }
 
@@ -64,12 +69,14 @@ class GameCategoryController extends Controller
      */
     public function show($id)
     {
-        $gamecategories = GameCategory::find($id);
+        $task_masters = TaskMaster::find($id);
+           // dd($ebooks);
+        $subjectscategories = SubjectsCategory::all();
 
         return response()->json([
             'error' => false,
             'status' => 'success',
-            'result' => $gamecategories
+            'result' => $task_masters
         ]);
     }
 
@@ -81,7 +88,8 @@ class GameCategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $task_masters = TaskMaster::find($id);
+        $subjectscategories = SubjectsCategory::all();
     }
 
     /**
@@ -93,15 +101,18 @@ class GameCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $gamecategories = GameCategory::where('id',$id)->first();
-        $gamecategories->name  = $request->name;
-        $gamecategories->description = $request->description;
-        $gamecategories->save();
+        $task_masters = TaskMaster::where('id',$id)->first();
+        $task_masters->title=$request->title;
+        $task_masters->class=$request->class;
+        $task_masters->semester=$request->semester;
+        $task_masters->subjectscategories_id=$request->subjectscategories_id;
+
+        $task_masters->save();
 
         return response()->json([
             'error' => false,
             'status' => 'success',
-            'result' => $gamecategories
+            'result' => $task_masters
         ]);
     }
 
@@ -113,13 +124,13 @@ class GameCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $gamecategories = GameCategory::where('id',$id)->first();
-        $gamecategories->delete();
+        $task_masters = TaskMaster::where('id',$id)->first();
+        $task_masters->delete();
 
         return response()->json([
             'error' => false,
             'status' => 'success',
-            'result' => $gamecategories
+            'result' => $task_masters
         ]);
     }
 }

@@ -11,6 +11,7 @@ class GamesController extends Controller
     {
         $games = Game::all(); // untuk mengambil semua data games
         return response()->json([
+            'error' => false,
             'status' => 'success',
             'result' => $games
         ]);
@@ -58,6 +59,7 @@ class GamesController extends Controller
        $games->save();
 
        return response()->json([  //biar keluarannya berupa json
+           'error' => false,
            'status' => 'success',
            'result' => $games
        ]);
@@ -74,6 +76,7 @@ class GamesController extends Controller
     {
         $games = Game::find($id);
         return response()->json([  //biar keluarannya berupa json
+            'error' => false,
             'status' => 'success',
             'result' => $games
         ]);
@@ -116,6 +119,7 @@ class GamesController extends Controller
         $games->save();
 
         return response()->json([  //biar keluarannya berupa json
+            'error' => false,
             'status' => 'success',
             'result' => $games
         ]);
@@ -133,6 +137,7 @@ class GamesController extends Controller
         $games->delete();
 
         return response()->json([  //biar keluarannya berupa json
+            'error' => false,
             'status' => 'success',
             'result' => $games
         ]);

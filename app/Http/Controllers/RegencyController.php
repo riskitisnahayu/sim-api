@@ -18,6 +18,7 @@ class RegencyController extends Controller
         }
 
         return response()->json([
+            'error' => false,
             'status' => 'success',
             'result' => $regencies
         ]);

@@ -40,6 +40,7 @@ class OrangtuaController extends Controller
         // dd($response);
         // return view('orangtua.dashboard', compact('response'));
         return response()->json([
+            'error' => false,
             'status' => 'success',
             'result' => $response
         ]);

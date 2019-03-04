@@ -15,6 +15,14 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function api_logout(Request $request)
+     {
+           // dd($request->user());
+           $request->user()->token()->revoke();
+           return response()->json([
+             'message' => 'Successfully logged out'
+           ]);
+     }
 
     public function regisortu(Request $request){
         $this->validate($request, [
@@ -40,7 +48,7 @@ class UserController extends Controller
             'email'     => $request->email,
             'password'  => bcrypt($request->password),
             'type'      => 'Orang tua',
-        ])->orangtuas()->create([]);
+        ])->orangtua()->create([]);
 
         return response()->json([
             'error' => false,
@@ -86,7 +94,7 @@ class UserController extends Controller
             'email'         => $request->email,
             'password'      => bcrypt($request->password),
             'type'          => 'Siswa',
-        ])->students()->create([
+        ])->student()->create([
             'jenis_kelamin' => $request->jenis_kelamin,
             'orangtua_id'   => $request->orangtua_id,
             'province_id'   => $request->province_id,
@@ -133,12 +141,6 @@ class UserController extends Controller
       }
   }
 
-    public function logout(Request $request){
-      $request->user()->token()->revoke();
-      return response()->json([
-        'message' => 'Successfully logged out'
-      ]);
-    }
 
 
     public function index()
