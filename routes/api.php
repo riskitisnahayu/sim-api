@@ -18,9 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('api')->post('/user/login','UserController@login');
-Route::middleware('api')->poat('/admin/logout','UserController@api_logout');
-Route::middleware('api')->poat('/orangtua/logout','UserController@api_logout');
-Route::middleware('api')->poat('/siswa/logout','UserController@api_logout');
+
+Route::middleware('auth:api')->post('/admin/logout','UserController@api_logout');
+Route::middleware('auth:api')->post('/orangtua/logout','UserController@api_logout');
+Route::middleware('auth:api')->post('/siswa/logout','UserController@api_logout');
 
 // forgot password
 
