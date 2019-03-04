@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Game;
+use App\LogActivity;
+use Auth;
 
 class GamesController extends Controller
 {
     public function getGames() // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
     {
+        LogActivity::create([
+            'user_id' => Auth::user()->id,
+            'fitur'   => 'Mini Games'
+        ]);
+
         $games = Game::all(); // untuk mengambil semua data games
         return response()->json([
             'error' => false,

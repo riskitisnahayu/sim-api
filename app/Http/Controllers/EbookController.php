@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\EBook;
+use App\LogActivity;
+use Auth;
 
 class EbookController extends Controller
 {
     public function getEbook() // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
     {
+        LogActivity::create([
+            'user_id' => Auth::user()->id,
+            'fitur'   => 'E-Book'
+        ]);
+
         $ebooks = EBook::all(); // untuk mengambil semua data games
         return response()->json([
             'error' => false,

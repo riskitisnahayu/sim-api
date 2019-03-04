@@ -5,12 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\TaskMaster;
 use App\SubjectsCategory;
+use App\LogActivity;
+use Auth;
 
 class TaskMasterController extends Controller
 {
 
     public function getTaskMaster() // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
     {
+        LogActivity::create([
+            'user_id' => Auth::user()->id,
+            'fitur'   => 'Bank Soal'
+        ]);
+
         $task_masters = TaskMaster::all(); // untuk mengambil semua data games
         return response()->json([
             'error' => false,
