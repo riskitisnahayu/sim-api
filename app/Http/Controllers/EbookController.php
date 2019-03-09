@@ -23,6 +23,19 @@ class EbookController extends Controller
             'result' => $ebooks
         ]);
     }
+
+    public function getEbookClass(Request $request)
+    {
+        $ebooks = EBook::where('subjectscategories_id', $request->subjectscategories)
+                        ->where('class', $request->class)
+                        ->get();
+                        // dd($ebooks);
+        return response()->json([
+            'error' => false,
+            'status' => 'success',
+            'result' => $ebooks
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *

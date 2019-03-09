@@ -67,6 +67,7 @@ Route::middleware('auth:api')->delete('/games/delete/{id}','GamesController@dest
 
 // untuk api ebook
 Route::middleware('auth:api')->get('/ebook','EbookController@getEbook');
+Route::middleware('auth:api')->get('/ebook/class','EbookController@getEbookClass');
 Route::middleware('auth:api')->post('/ebook/store','EbookController@store');
 Route::middleware('auth:api')->get('/ebook/detail/{id}','EbookController@show');
 Route::middleware('auth:api')->put('/ebook/update/{id}','EbookController@update');
