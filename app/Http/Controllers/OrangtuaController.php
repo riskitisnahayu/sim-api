@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 
 class OrangtuaController extends Controller
 {
@@ -11,6 +12,20 @@ class OrangtuaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function getOrangtua(Request $request)
+     {
+         $user = User::where('id',$request->id)
+                ->with('orangtua')
+                ->first(); // untuk mengambil semua data games
+
+         return response()->json([
+             // 'user_id' => Auth::user()->id,
+             'error' => false,
+             'status' => 'success',
+             'result' => $user
+         ]);
+     }
 
     public function getNews()
     {
