@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\EBook;
 use App\LogActivity;
 use Auth;
+use App\Student;
+use App\User;
 
 class EbookController extends Controller
 {
@@ -159,6 +161,29 @@ class EbookController extends Controller
             'error' => false,
             'status' => 'success',
             'result' => $ebooks
+        ]);
+    }
+
+    public function api_LogEbook(Request $request) // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
+    {
+        $log = LogActivity::create([
+            'user_id' => $request->id,
+            'fitur' => $request->fitur
+
+            // 'user_id' => Auth::user()->id,
+            // 'fitur'   => 'E-Book'
+        ]);
+
+
+        $log_ebook = new LogActivity; // untuk mengambil semua data games
+        $log_ebook->user_id = $request->id;
+        $log_ebook->fitur = $request->fitur;
+        $log_ebook->save();
+        $user = User::find($log_ebook->user_id);
+        return response()->json([
+            'error' => false,
+            'status' => 'success',
+            'result' => ['menu'=>$log_ebook, 'user'=>$user],
         ]);
     }
 }

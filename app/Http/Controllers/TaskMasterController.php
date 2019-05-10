@@ -140,4 +140,36 @@ class TaskMasterController extends Controller
             'result' => $task_masters
         ]);
     }
+
+    public function getTaskMasterClass(Request $request)
+    {
+        $task_masters = TaskMaster::where('subjectscategories_id', $request->subjectscategories)
+                        ->where('class', $request->class)
+                        ->get();
+                        // dd($ebooks);
+        return response()->json([
+            'error' => false,
+            'status' => 'success',
+            'result' => $task_masters
+        ]);
+    }
+
+    public function api_LogTask(Request $request) // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
+    {
+        LogActivity::create([
+            'user_id' => Auth::user()->id,
+            'fitur'   => 'Mini Games'
+        ]);
+
+        $log_task = new LogActivity; // untuk mengambil semua data games
+        $log_task->user_id = $request->id;
+        $log_task->fitur = $request->fitur;
+        $log_task->save();
+        $user = User::find($log_task->user_id);
+        return response()->json([
+            'error' => false,
+            'status' => 'success',
+            'result' => ['menu'=>$log_task, 'user'=>$user],
+        ]);
+    }
 }

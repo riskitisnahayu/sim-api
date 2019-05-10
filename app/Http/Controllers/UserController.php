@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Orangtua;
+use App\Student;
 use Auth;
 // use App\Orangtua;
 
@@ -123,21 +125,30 @@ class UserController extends Controller
           $success['username'] = $username;
           $success['password'] = $password;
 
+          // $haha- = ''
           $pengguna = User::where('username', $success['username'])->first();
-          $pengguna->token = $success['token'];
+          // $pengguna = User::where('username', $success['username'])->first();
+          $token = User::where('username', $success['username'])->first();
+          if ($pengguna->type == 'Siswa') {
+            $pengguna->id_user = Student::where('user_id',$pengguna->id)->first()->id;
+          }else {
+            $pengguna->id_user = Orangtua::where('user_id',$pengguna->id)->first()->id;
+          }
+          $token->token = $success['token'];
           // dd($pengguna);
           return response()->json([
               // 'error'=>false,
               'status'=>'success',
               // 'token' => $success['token'],
-              'user' => $pengguna
+              'user' => $pengguna,
+              'token' => $token,
           ]);
       }
       else{
           $success['status'] = 'failed';
           $success['error'] = 'Unauthorised';
           $success['message'] = 'Your username or password incorrect!';
-          return response()->json([$success],401);
+          return response()->json($success,401);
       }
   }
 
@@ -200,7 +211,16 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = User::find($id);
+		//$data->name=$request->get('name');
+        //$data->username=$request->get('username');
+        //$data->email=$request->get('email');
+		$data->password=$request->get('password');
+        $data->save();
+      return response()->json([
+        'status'=>'success',
+        'result'=> $data ,
+      ]);
     }
 
     /**

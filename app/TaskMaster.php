@@ -21,4 +21,9 @@ class TaskMaster extends Model
         return $this->hasMany('App\Task', 'taskmaster_id', 'id');
         //hasmany, id di app\task
     }
+
+    public function taskanswers()
+    {
+        return $this->hasMany('App\Task', 'taskmaster_id', 'id')->with('answers');
+    }
 }

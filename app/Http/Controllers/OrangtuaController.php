@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+<<<<<<< Updated upstream
+=======
+use App\Student;
+use App\Orangtua;
+use Illuminate\Support\Facades\Hash;
+>>>>>>> Stashed changes
 
 class OrangtuaController extends Controller
 {
@@ -13,20 +19,92 @@ class OrangtuaController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+<<<<<<< Updated upstream
      public function getOrangtua(Request $request)
      {
          $user = User::where('id',$request->id)
                 ->with('orangtua')
                 ->first(); // untuk mengambil semua data games
+=======
+
+		 public function api_LogActivity(Request $request)
+	     {
+	         $ortu = Orangtua::where('user_id',$request->id)->first();
+	         $anak = Student::where('orangtua_id',$ortu->id)
+	                         ->leftJoin('users','students.user_id','users.id')
+	                         ->get();
+	         // dd($anak);
+	         foreach ($anak as $key => $value) {
+	           $log = LogActivity::where('user_id',$value->user_id)->get();
+	           // dd($log);
+	           return response()->json([
+	             'error' => false,
+	             'status' => 'success',
+	             'orangtua' => $ortu,
+	             'anak' => $anak,
+	             'log' => $log
+	           ]);
+	         }
+
+	     }
+
+	 public function getOrangtua(Request $request)
+     {
+
+         $user = User::where('id',$request->id) //user dimana id nya = request-nya (request id-nya)
+         // ->with('orangtua') // fungsi orangtua yang ada di model User
+         ->first(); // untuk mengambil satu data ortu
+
+         $siswa = Student::leftJoin('orangtuas','students.orangtua_id','orangtuas.id') // yang dipanggil orangtua id karena di dua tabel yang menghubungkan adalah orang tua id-nya.
+                            ->leftJoin('users','students.user_id','users.id')
+                            ->where('orangtuas.user_id', $request->id)
+                            ->get();
+         // $siswa = Orangtua::where('user_id', $request->id)->get();
+         // dd($siswa);
+>>>>>>> Stashed changes
 
          return response()->json([
              // 'user_id' => Auth::user()->id,
              'error' => false,
              'status' => 'success',
+<<<<<<< Updated upstream
              'result' => $user
          ]);
      }
 
+=======
+             'result' => $user,
+             'anak' => $siswa
+
+         ]);
+     }
+
+		 public function detailsAnak(Request $request)
+		 {
+		 	$anak = Student::leftJoin('orangtuas','students.orangtua_id','orangtuas.id') // yang dipanggil orangtua id karena di dua tabel yang menghubungkan adalah orang tua id-nya.
+												 ->leftJoin('users','students.user_id','users.id')
+												 ->where('orangtuas.user_id', $request->id)
+												 ->get();
+
+			return response()->json([
+				'status' => 'success',
+				'result' => $anak
+			]);
+		 }
+
+		public function api_detailProfil(Request $request)
+    {
+        $user = User::where('id',$request->id)
+        ->with('orangtua')
+        ->first();
+        return response()->json([
+            'error' => false,
+            'status' => 'success',
+            'result' => $user
+        ]);
+    }
+
+>>>>>>> Stashed changes
     public function getNews()
     {
         $curl = curl_init();
@@ -115,10 +193,32 @@ class OrangtuaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+		 public function api_updateProfil(Request $request, $id){
+         $this->validate($request, [
+                  'name'          => 'required',
+                  'username'      => 'required',
+                  'email'         => 'required|email'
+            ],
+
+            [
+                 'name.required'          => 'Nama harus diisi!',
+                 'username.required'      => 'Username harus diisi!',
+                 'email.required'         => 'Email harus diisi!',
+             ]
+        );
+ 				$data = Orangtua::where('user_id', $id)->first();
+        $ortu = User::where('id',$data->user_id)->first();
+
+  			$ortu->name=$request->name;
+        $ortu->username=$request->username;
+        $ortu->email=$request->email;
+        $ortu->save();
+        return response()->json([
+            'error' => false,
+            'status' => 'success',
+            'user' => $ortu
+        ]);
+     }
 
     /**
      * Remove the specified resource from storage.
@@ -130,4 +230,86 @@ class OrangtuaController extends Controller
     {
         //
     }
+
+		public function api_updatePasswOrtu(Request $request, $id)
+    {
+        $data = Orangtua::where('user_id',$id)->first();
+        $ortu = User::where('id',$data->user_id)->first();
+        // dd($ortu);
+        if (Hash::check($request->oldPassword, $ortu->password))
+        {
+            $this->validate($request, [
+                     'oldPassword'           => 'required',
+                     'password'              => 'required|min:6|confirmed',
+                     'password_confirmation' => 'required',
+               ],
+               [
+                   'oldPassword.required'            => 'Password lama harus diisi!',
+                   'password.required'               => 'Password baru harus diisi!',
+                   'password_confirmation.required'  => 'Konfirmasi password baru harus diisi!',
+                ]
+            );
+            $ortu->password = Hash::make($request->password);
+            $ortu->save();
+        }
+        else {
+            $this->validate($request, [
+                     'oldPassword'           => 'required',
+                     'password'              => 'required|min:6|confirmed',
+                     'password_confirmation' => 'required',
+               ],
+               [
+                   'oldPassword.required'           => 'Password lama harus diisi!',
+                   'password.required'           => 'Password baru harus diisi!',
+                   'password_confirmation.required' => 'Konfirmasi password baru harus diisi!',
+                ]
+            );
+        }
+        return response()->json([
+            'error' => false,
+            'status' => 'success',
+            'result' => $ortu
+        ]);
+    }
+
+    public function api_updatePasswSiswa(Request $request, $id)
+    {
+        $data = Student::where('user_id',$id)->first();
+        $siswa = User::where('id',$data->user_id)->first();
+        // dd($data);
+        if (Hash::check($request->oldPassword, $siswa->password))
+        {
+            $this->validate($request, [
+                     'oldPassword'           => 'required',
+                     'password'              => 'required|min:6|confirmed',
+                     'password_confirmation' => 'required',
+               ],
+               [
+                   'oldPassword.required'            => 'Password lama harus diisi!',
+                   'password.required'               => 'Password baru harus diisi!',
+                   'password_confirmation.required'  => 'Konfirmasi password baru harus diisi!',
+                ]
+            );
+            $siswa->password = Hash::make($request->password);
+            $siswa->save();
+        }else {
+            $this->validate($request, [
+                     'oldPassword'           => 'required',
+                     'password'              => 'required|min:6|confirmed',
+                     'password_confirmation' => 'required',
+               ],
+               [
+                   'oldPassword.required'            => 'Password lama harus diisi!',
+                   'password.required'               => 'Password baru harus diisi!',
+                   'password_confirmation.required'  => 'Konfirmasi password baru harus diisi!',
+                ]
+            );
+        }
+        return response()->json([
+            'error' => false,
+            'status' => 'success',
+            'result' => $siswa
+        ]);
+    }
+
 }

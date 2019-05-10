@@ -149,4 +149,23 @@ class GamesController extends Controller
             'result' => $games
         ]);
     }
+
+    public function api_LogGames(Request $request) // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
+    {
+        LogActivity::create([
+            'user_id' => Auth::user()->id,
+            'fitur'   => 'Mini Games'
+        ]);
+
+        $log_games = new LogActivity; // untuk mengambil semua data games
+        $log_games->user_id = $request->id;
+        $log_games->fitur = $request->fitur;
+        $log_games->save();
+        $user = User::find($log_games->user_id);
+        return response()->json([
+            'error' => false,
+            'status' => 'success',
+            'result' => ['menu'=>$log_games, 'user'=>$user],
+        ]);
+    }
 }

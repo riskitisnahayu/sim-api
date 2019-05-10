@@ -11,11 +11,11 @@ class Regency extends Model
 
     public function province()
     {
-        return $this->belongsTo('App\Province', 'provinces_id', 'id');
+        return $this->belongsTo('App\Province', 'province_id', 'id');
     }
 
     public function district()
     {
-        return $this->hasMany('App\District', 'regencies_id', 'id');
+        return $this->hasMany('App\District', 'regency_id', 'id');
     }
 }
