@@ -7,6 +7,7 @@ use App\TaskMaster;
 use App\SubjectsCategory;
 use App\LogActivity;
 use Auth;
+use App\User;
 
 class TaskMasterController extends Controller
 {
@@ -157,8 +158,8 @@ class TaskMasterController extends Controller
     public function api_LogTask(Request $request) // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
     {
         LogActivity::create([
-          'user_id' => $request->id,
-          'fitur' => $request->fitur
+            'user_id' => Auth::user()->id,
+            'fitur'   => 'Mini Games'
         ]);
 
         $log_task = new LogActivity; // untuk mengambil semua data games
