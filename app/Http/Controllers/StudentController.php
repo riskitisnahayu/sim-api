@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-<<<<<<< Updated upstream
-=======
 use App\Student;
 use App\LogActivity;
 use App\TaskMaster;
->>>>>>> Stashed changes
 
 class StudentController extends Controller
 {
@@ -17,11 +14,7 @@ class StudentController extends Controller
     {
         $user = User::where('id',$request->id)
                ->with('student')
-<<<<<<< Updated upstream
-               ->first(); // untuk mengambil semua data games
-=======
                ->first();
->>>>>>> Stashed changes
 
         return response()->json([
             // 'user_id' => Auth::user()->id,
@@ -30,8 +23,6 @@ class StudentController extends Controller
             'result' => $user
         ]);
     }
-<<<<<<< Updated upstream
-=======
 
     public function api_detailProfil(Request $request)
     {
@@ -162,5 +153,4 @@ class StudentController extends Controller
 			'message' => "Akun berhasil dihapus"
         ]);
 		}
->>>>>>> Stashed changes
 }
