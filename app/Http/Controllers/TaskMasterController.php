@@ -157,8 +157,8 @@ class TaskMasterController extends Controller
     public function api_LogTask(Request $request) // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
     {
         LogActivity::create([
-            'user_id' => Auth::user()->id,
-            'fitur'   => 'Mini Games'
+          'user_id' => $request->id,
+          'fitur' => $request->fitur
         ]);
 
         $log_task = new LogActivity; // untuk mengambil semua data games

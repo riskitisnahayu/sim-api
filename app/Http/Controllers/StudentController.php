@@ -110,19 +110,19 @@ class StudentController extends Controller
         $task_master = TaskMaster::find($task_master_id);
         $tasks = TaskMaster::where('id', $task_master_id)
                                ->where('class', $request->class)
-                               ->where('semester', $request->semester)
+                               // ->where('semester', $request->semester)
                                ->first();
         if($tasks){
             $tasks = TaskMaster::where('id', $task_master_id)
                                    ->where('class', $request->class)
-                                   ->where('semester', $request->semester)
+                                   // ->where('semester', $request->semester)
                                    ->first()->taskanswers()->get(); //answers karena di function model diberi nama answers
         }
         // else{
         //     return redirect()->back()->with('error','Maaf, Soal tidak tersedia.');
         // }
         $answers = [];
-        dd($tasks);
+        // dd($tasks);
         foreach ($tasks as $key => $curr_task) {
             $answers[$key] = $curr_task->answers()->orderBy('choice', 'asc')->get();
         }

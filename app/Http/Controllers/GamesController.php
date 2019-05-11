@@ -153,8 +153,8 @@ class GamesController extends Controller
     public function api_LogGames(Request $request) // fungsinya sama spt index untuk menampilkan semua data tp dalam bentuk json
     {
         LogActivity::create([
-            'user_id' => Auth::user()->id,
-            'fitur'   => 'Mini Games'
+          'user_id' => $request->id,
+          'fitur' => $request->fitur
         ]);
 
         $log_games = new LogActivity; // untuk mengambil semua data games
