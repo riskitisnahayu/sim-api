@@ -51,13 +51,6 @@ Route::middleware('auth:api')->put('/orangtua/editanak/{id}','StudentController@
 // untuk registrasi
 Route::middleware('api')->post('/user/orangtua','UserController@regisortu');
 Route::middleware('api')->post('/user/siswa','UserController@regisSiswa');
-<<<<<<< Updated upstream
-=======
-
-//
-// Route::middleware('api')->post('/user/login','UserController@login');
-// Route::middleware('api')->post('/user/logout','UserController@logout');
->>>>>>> Stashed changes
 
 
 Route::middleware('auth:api')->get('/province','ProvinceController@getProvince');
