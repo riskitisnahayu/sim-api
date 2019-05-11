@@ -4,12 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-<<<<<<< Updated upstream
-=======
-use App\Student;
-use App\Orangtua;
-use Illuminate\Support\Facades\Hash;
->>>>>>> Stashed changes
 
 class OrangtuaController extends Controller
 {
@@ -19,92 +13,20 @@ class OrangtuaController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-<<<<<<< Updated upstream
      public function getOrangtua(Request $request)
      {
          $user = User::where('id',$request->id)
                 ->with('orangtua')
                 ->first(); // untuk mengambil semua data games
-=======
-
-		 public function api_LogActivity(Request $request)
-	     {
-	         $ortu = Orangtua::where('user_id',$request->id)->first();
-	         $anak = Student::where('orangtua_id',$ortu->id)
-	                         ->leftJoin('users','students.user_id','users.id')
-	                         ->get();
-	         // dd($anak);
-	         foreach ($anak as $key => $value) {
-	           $log = LogActivity::where('user_id',$value->user_id)->get();
-	           // dd($log);
-	           return response()->json([
-	             'error' => false,
-	             'status' => 'success',
-	             'orangtua' => $ortu,
-	             'anak' => $anak,
-	             'log' => $log
-	           ]);
-	         }
-
-	     }
-
-	 public function getOrangtua(Request $request)
-     {
-
-         $user = User::where('id',$request->id) //user dimana id nya = request-nya (request id-nya)
-         // ->with('orangtua') // fungsi orangtua yang ada di model User
-         ->first(); // untuk mengambil satu data ortu
-
-         $siswa = Student::leftJoin('orangtuas','students.orangtua_id','orangtuas.id') // yang dipanggil orangtua id karena di dua tabel yang menghubungkan adalah orang tua id-nya.
-                            ->leftJoin('users','students.user_id','users.id')
-                            ->where('orangtuas.user_id', $request->id)
-                            ->get();
-         // $siswa = Orangtua::where('user_id', $request->id)->get();
-         // dd($siswa);
->>>>>>> Stashed changes
 
          return response()->json([
              // 'user_id' => Auth::user()->id,
              'error' => false,
              'status' => 'success',
-<<<<<<< Updated upstream
              'result' => $user
          ]);
      }
 
-=======
-             'result' => $user,
-             'anak' => $siswa
-
-         ]);
-     }
-
-		 public function detailsAnak(Request $request)
-		 {
-		 	$anak = Student::leftJoin('orangtuas','students.orangtua_id','orangtuas.id') // yang dipanggil orangtua id karena di dua tabel yang menghubungkan adalah orang tua id-nya.
-												 ->leftJoin('users','students.user_id','users.id')
-												 ->where('orangtuas.user_id', $request->id)
-												 ->get();
-
-			return response()->json([
-				'status' => 'success',
-				'result' => $anak
-			]);
-		 }
-
-		public function api_detailProfil(Request $request)
-    {
-        $user = User::where('id',$request->id)
-        ->with('orangtua')
-        ->first();
-        return response()->json([
-            'error' => false,
-            'status' => 'success',
-            'result' => $user
-        ]);
-    }
-
->>>>>>> Stashed changes
     public function getNews()
     {
         $curl = curl_init();
