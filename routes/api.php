@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:api')->get('/log','OrangtuaController@api_LogActivity');
+
 
 Route::middleware('auth:api')->put('/user/update/{id}','UserController@update');
 
@@ -26,6 +26,7 @@ Route::middleware('api')->post('/user/login','UserController@login');
 Route::middleware('auth:api')->post('/admin/logout','UserController@api_logout');
 Route::middleware('auth:api')->post('/orangtua/logout','UserController@api_logout');
 Route::middleware('auth:api')->post('/siswa/logout','UserController@api_logout');
+
 
 Route::middleware('auth:api')->get('/cek/orangtua','OrangtuaController@getOrangtua');
 Route::middleware('auth:api')->get('/cek/orangtua/anak','OrangtuaController@detailsAnak');
@@ -40,6 +41,8 @@ Route::middleware('auth:api')->post('/orangtua/profil/update/password/{id}','Ora
 Route::middleware('auth:api')->put('/orangtua/anak/update/{id}','StudentController@updateAnak');
 Route::middleware('auth:api')->post('/orangtua/anak/update/password/{id}','OrangtuaController@api_updatePasswSiswa');
 Route::middleware('auth:api')->delete('/orangtua/anak/deleteanak/{id}','StudentController@deleteAnak');
+Route::middleware('auth:api')->get('/log','OrangtuaController@api_LogActivity');
+Route::middleware('auth:api')->get('/log/activity', 'OrangtuaController@activityReport');
 
 
 
@@ -90,7 +93,7 @@ Route::middleware('auth:api')->delete('/games/delete/{id}','GamesController@dest
 
 // untuk api ebook
 Route::middleware('auth:api')->get('/ebook','EbookController@getEbook');
-Route::middleware('auth:api')->get('/ebook/class','EbookController@getEbookClass');
+Route::middleware('auth:api')->get('/ebook/class/','EbookController@getEbookClass');
 Route::middleware('auth:api')->post('/ebook/store','EbookController@store');
 Route::middleware('auth:api')->get('/ebook/detail/{id}','EbookController@show');
 Route::middleware('auth:api')->put('/ebook/update/{id}','EbookController@update');
@@ -98,13 +101,14 @@ Route::middleware('auth:api')->delete('/ebook/delete/{id}','EbookController@dest
 
 
 // untuk api bank soal
-Route::middleware('auth:api')->get('/banksoal/class','TaskMasterController@getTaskMasterClass');
+Route::middleware('auth:api')->get('/banksoal/class/','TaskMasterController@getTaskMasterClass');
 Route::middleware('auth:api')->post('/banksoal/store','TaskMasterController@store');
 Route::middleware('auth:api')->get('/banksoal/detail/{id}','TaskMasterController@show');
 Route::middleware('auth:api')->put('/banksoal/update/{id}','TaskMasterController@update');
 Route::middleware('auth:api')->delete('/banksoal/delete/{id}','TaskMasterController@destroy');
-Route::middleware('auth:api')->get('/siswa/soal','StudentController@api_soal');
-Route::middleware('auth:api')->get('/siswa/list-soal','StudentController@api_listSoal');
+Route::middleware('auth:api')->get('/banksoal/soal','TaskMasterController@api_soal');
+// jalan buat nampilin nilai siswa mengerjakan soal
+Route::middleware('auth:api')->post('/siswa/nilai','StudentController@api_getScore');
 
 //store log events
 Route::middleware('auth:api')->post('/log/ebook','EbookController@api_LogEbook');

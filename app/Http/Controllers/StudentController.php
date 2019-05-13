@@ -86,64 +86,10 @@ class StudentController extends Controller
       ]);
     }
 
-    //nampilin soal
-
-    public function api_listSoal(Request $request)
-    {
-      // dd($request);
-        $task_master = TaskMaster::where('class',$request->class)
-                                  ->where('subjectscategories_id',$request->subjectscategories_id)
-                                  ->get();
-        return response()->json([
-            'error'  => false,
-            'status' => 'success',
-            'result' => $task_master,
-        ]);
-    }
-
-    public function api_soal(Request $request)
-    {
-        // dd($request);
-        // $task_master = TaskMaster::find($id);
-        // $tasks = TaskMaster::where('id', $id)->first()->tasks()->get();
-        $task_master_id = $request->id;
-        $task_master = TaskMaster::find($task_master_id);
-        $tasks = TaskMaster::where('id', $task_master_id)
-                               ->where('class', $request->class)
-                               // ->where('semester', $request->semester)
-                               ->first();
-        if($tasks){
-            $tasks = TaskMaster::where('id', $task_master_id)
-                                   ->where('class', $request->class)
-                                   // ->where('semester', $request->semester)
-                                   ->first()->taskanswers()->get(); //answers karena di function model diberi nama answers
-        }
-        // else{
-        //     return redirect()->back()->with('error','Maaf, Soal tidak tersedia.');
-        // }
-        $answers = [];
-        // dd($tasks);
-        foreach ($tasks as $key => $curr_task) {
-            $answers[$key] = $curr_task->answers()->orderBy('choice', 'asc')->get();
-        }
-        // dd($answers);
-        $choices = ['a', 'b', 'c', 'd'];
-        // $taskmaster_id = $id;
-       $taskmaster_id = $task_master_id;
-        // dd($taskmaster_id);
-
-        return response()->json([
-            'error'  => false,
-            'status' => 'success',
-            'result' => $task_master,
-            'soal'   => $tasks
-        ]);
-    }
-
     public function deleteAnak($id)
 	{
 		$user = User::where('id', $id)->first();
-    	$anak = Student::where('user_id', $id)->first();
+    $anak = Student::where('user_id', $id)->first();
         // dd($user);
 		$anak->delete();
 		$user->delete();
@@ -153,4 +99,18 @@ class StudentController extends Controller
 			'message' => "Akun berhasil dihapus"
         ]);
 		}
+
+    public function api_getScore(Request $request)
+    {
+        // $student = Student::where('user_id',Auth::user()->id);
+        // $studenttask = StudentTask::where('student_id',$student->get()->first()->id);
+        $student_task = Studenttask::find($request->id);
+        $student_task->score = $request->score;
+        $student_task->save();
+        return response()->json([
+            'error'  => false,
+            'status' => 'success',
+            'result' => $student_task
+        ]);
+    }
 }

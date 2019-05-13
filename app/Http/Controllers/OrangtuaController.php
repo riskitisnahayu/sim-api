@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Student;
 use App\Orangtua;
+use App\LogActivity;
 use Illuminate\Support\Facades\Hash;
 
 class OrangtuaController extends Controller
@@ -18,8 +19,10 @@ class OrangtuaController extends Controller
 
      public function api_LogActivity(Request $request)
 	     {
+			 
 	         $ortu = Orangtua::where('user_id',$request->id)->first();
-	         $anak = Student::where('orangtua_id',$ortu->id)
+	         //dd($ortu);
+			 $anak = Student::where('orangtua_id',$ortu->id)
 	                         ->leftJoin('users','students.user_id','users.id')
 	                         ->get();
 	         // dd($anak);
@@ -29,13 +32,31 @@ class OrangtuaController extends Controller
 	           return response()->json([
 	             'error' => false,
 	             'status' => 'success',
-	             'orangtua' => $ortu,
+	             //'orangtua' => $ortu,
 	             'anak' => $anak,
 	             'log' => $log
 	           ]);
 	         }
 
 	     }
+		 
+		public function activityReport(Request $request)
+		{
+			$anak = Student::where('user_id',$request->id)
+	                         ->leftJoin('users','students.user_id','users.id')
+	                         ->first();
+	         // dd($anak);
+	           $log = LogActivity::where('user_id',$request->id)->get();
+	           // dd($log);
+	           return response()->json([
+	             'error' => false,
+	             'status' => 'success',
+	             //'orangtua' => $ortu,
+	             'anak' => $anak,
+	             'log' => $log
+	           ]);
+	 
+		}
 
        public function getOrangtua(Request $request)
      {
